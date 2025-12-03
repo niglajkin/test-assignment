@@ -1,0 +1,30 @@
+name: Run test suite for project
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Install dependencies
+        run: make deps
+
+      - name: Compile main & test sources
+        run: make compile
+
+      - name: Run tests
+        run: make test
